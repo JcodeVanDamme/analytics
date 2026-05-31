@@ -6,6 +6,8 @@ from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parents[1]
 DATA_FILE_PATH = BASE_DIR / "data" / "games.json"
+st.write("DATA PATH:", DATA_FILE_PATH)
+st.write("EXISTS:", DATA_FILE_PATH.exists())
 
 @st.cache_data(show_spinner=True)
 def load_data():
