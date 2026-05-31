@@ -1,35 +1,29 @@
 import streamlit as st
+import pyarrow.parquet as pq
 import pandas as pd
-import numpy as np
-import json
 from pathlib import Path
 
-DATA_FILE_PATH = Path("data/games.json")
-st.write("DATA PATH:", DATA_FILE_PATH)
-st.write("EXISTS:", DATA_FILE_PATH.exists())
-st.write(DATA_FILE_PATH.read_text()[:200])
+DATA_FILE_PATH = Path("data/games.parquet")
+
 
 @st.cache_data(show_spinner=True)
-def load_data():
-    with open(DATA_FILE_PATH, "r", encoding="utf-8") as f:
-        data = json.load(f)
+def get_total_rows():
+    parquet_file = pq.ParquetFile(DATA_FILE_PATH)
+    return parquet_file.metadata.num_rows
 
-    df = pd.DataFrame.from_dict(data, orient="index")
 
-    df.reset_index(inplace=True)
-    df.rename(columns={"index": "game_id"}, inplace=True)
+@st.cache_data(show_spinner=True)
+def load_page(start: int, end: int):
+    table = pq.read_table(
+        DATA_FILE_PATH,
+        columns=None,
+        use_threads=True,
+        memory_map=True
+    )
 
-    return df
+    df = table.slice(start, end - start).to_pandas()
 
-@st.cache_data
-def stringify(df):
-    df = df.copy()
-
-    for col in df.columns:
-        if df[col].apply(lambda x: isinstance(x, (list, dict))).any():
-            df[col] = df[col].apply(
-                lambda x: json.dumps(x) if isinstance(x, (list, dict)) else x
-            )
+    if "game_id" not in df.columns:
+        df = df.reset_index().rename(columns={"index": "game_id"})
 
     return df
-

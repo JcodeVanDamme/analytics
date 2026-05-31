@@ -1,1 +1,2 @@
 data/games.json filter=lfs diff=lfs merge=lfs -text
+data/games.parquet filter=lfs diff=lfs merge=lfs -text
