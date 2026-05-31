@@ -4,12 +4,12 @@ from utils.data import get_total_rows, load_page, search_games
 from utils.tag_parser import parse_tags
 
 st.set_page_config(
-    page_title="Browse Data",
+    page_title="Browse Titles",
     page_icon="🗂️",
     layout="wide"
 )
 
-st.title("🗂️ Browse Data")
+st.title("🗂️ Browse Titles")
 
 PAGE_SIZE = 250
 
@@ -18,39 +18,78 @@ PAGE_SIZE = 250
 # ---------------------------------------------------
 def show_details(row):
 
-    @st.dialog(row["name"])
+    @st.dialog(" ")
     def dialog():
 
-        comp.label("Released:", row.get("release_date"))
+        with st.container(gap="xxsmall"):
+
+            st.title(row["name"])
+
+            st.markdown(
+                f"**RELEASED:** **{row.get('release_date', '').upper()}**",
+            )
+            genres = row.get("genres")
+
+            if len(genres) > 0:
+                chips = "".join(
+                    f"""
+                    <span style="
+                        display:inline-block;
+                        padding:2px 8px;
+                        margin:1px;
+                        font-size:14px;
+                        font-weight:600;
+                        border-radius:3px;
+                        background:#1f6feb;
+                        color:white;
+                        white-space:nowrap;
+                        line-height:1;
+                    ">{g.upper()}</span>
+                    """
+                    for g in genres
+                )
+                st.markdown(
+                    f"""
+                    <div style="
+                        display:flex;
+                        flex-wrap:wrap;
+                        gap:2px 4px;
+                        line-height:1;
+                    ">
+                        {chips}
+                    </div>
+                    """,
+                    unsafe_allow_html=True
+                )
 
         st.image(row.get("header_image"), use_container_width=True)
 
         st.write(row.get("short_description"))
 
-        st.write("Tags:")
-
-        st.write(row.get("tags"))
         parsed_tags = parse_tags(row.get("tags"))
 
-        if not parsed_tags:
-            st.write("No tags available")
-        else:
-
-            # ensure valid column count (never 0)
-            col_count = max(1, min(len(parsed_tags), 4))
-            cols = st.columns(col_count)
-
-            if isinstance(parsed_tags[0], tuple):
-                # weighted tags
-                for i, (tag, score) in enumerate(parsed_tags[:12]):
-                    with cols[i % col_count]:
-                        st.badge(f"{tag} ({score})")
-            else:
-                # simple tags
-                for i, tag in enumerate(parsed_tags[:12]):
-                    with cols[i % col_count]:
-                        st.badge(tag)
-
+        if parsed_tags:
+            with st.container(gap="xxsmall"):
+                st.markdown("**TAGS:**")
+                with st.container(horizontal=True, gap="xxsmall"):
+                    for tag in parsed_tags[:12]:
+                        st.markdown(
+                            f"""
+                            <span style="
+                                display:inline-block;
+                                padding:2px 8px;
+                                margin:1px;
+                                font-size:14px;
+                                font-weight:600;
+                                border-radius:3px;
+                                background:#1f6feb;
+                                color:white;
+                                white-space:nowrap;
+                                line-height:1;
+                            ">{tag}</span>
+                            """,
+                            unsafe_allow_html=True
+                        )
     dialog()
 
 
