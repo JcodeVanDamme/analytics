@@ -1,2 +1,6 @@
 pyarrow
 duckdb
+streamlit
+pandas
+requests
+numpy

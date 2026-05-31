@@ -1,7 +1,56 @@
+import math
 import streamlit as st
 import utils.components as comp
-from utils.data import get_total_rows, load_page, search_games
+from utils.data import get_total_rows, load_page, search_games, get_genre_rank, get_publisher_rank
 from utils.tag_parser import parse_tags
+from utils.fetch import fetch_live_review_score
+
+def safe_div(a, b):
+    return a / b if b else 0
+
+def render_review_score(row):
+
+    positive = row.get("positive", 0)
+    negative = row.get("negative", 0)
+
+    dataset_review_score = safe_div(
+        positive,
+        positive + negative
+    ) * 100
+
+    live_review_score = fetch_live_review_score(
+        row["game_id"]
+    )
+
+    delta = None
+
+    if live_review_score is not None:
+        delta = (
+            f"{live_review_score - dataset_review_score:+.1f}%"
+        )
+
+    st.metric(
+        "Review-Score:",
+        f"{live_review_score:.1f}%"
+        if live_review_score is not None
+        else f"{dataset_review_score:.1f}%",
+        delta=delta
+    )
+
+
+def render_percentile_card(title: str, rank: int, total: int):
+
+    percentile = (1 - ((rank - 1) / total)) * 100
+
+    st.markdown(f"**{title}**")
+
+    st.progress(percentile / 100)
+
+    st.caption(
+        f"Rank #{rank:,} of {total:,} titles\n"
+        f"(Top {100 - percentile:.1f}%)"
+    )
+
 
 st.set_page_config(
     page_title="Browse Titles",
@@ -18,62 +67,25 @@ PAGE_SIZE = 250
 # ---------------------------------------------------
 def show_details(row):
 
-    @st.dialog(" ")
+    @st.dialog(" ", width="medium")
     def dialog():
 
-        with st.container(gap="xxsmall"):
+        col_left, col_right = st.columns([2, 1], gap="large")
 
-            st.title(row["name"])
+        with col_left:
+            with st.container():
+                with st.container(gap="xxsmall"):
 
-            st.markdown(
-                f"**RELEASED:** **{row.get('release_date', '').upper()}**",
-            )
-            genres = row.get("genres")
+                    st.title(row["name"])
 
-            if len(genres) > 0:
-                chips = "".join(
-                    f"""
-                    <span style="
-                        display:inline-block;
-                        padding:2px 8px;
-                        margin:1px;
-                        font-size:14px;
-                        font-weight:600;
-                        border-radius:3px;
-                        background:#1f6feb;
-                        color:white;
-                        white-space:nowrap;
-                        line-height:1;
-                    ">{g.upper()}</span>
-                    """
-                    for g in genres
-                )
-                st.markdown(
-                    f"""
-                    <div style="
-                        display:flex;
-                        flex-wrap:wrap;
-                        gap:2px 4px;
-                        line-height:1;
-                    ">
-                        {chips}
-                    </div>
-                    """,
-                    unsafe_allow_html=True
-                )
+                    st.markdown(
+                        f"**RELEASED:** **{row.get('release_date', '').upper()}**",
+                    )
 
-        st.image(row.get("header_image"), use_container_width=True)
+                    genres = row.get("genres")
 
-        st.write(row.get("short_description"))
-
-        parsed_tags = parse_tags(row.get("tags"))
-
-        if parsed_tags:
-            with st.container(gap="xxsmall"):
-                st.markdown("**TAGS:**")
-                with st.container(horizontal=True, gap="xxsmall"):
-                    for tag in parsed_tags[:12]:
-                        st.markdown(
+                    if len(genres) > 0:
+                        chips = "".join(
                             f"""
                             <span style="
                                 display:inline-block;
@@ -86,10 +98,77 @@ def show_details(row):
                                 color:white;
                                 white-space:nowrap;
                                 line-height:1;
-                            ">{tag}</span>
+                            ">{g.upper()}</span>
+                            """
+                            for g in genres
+                        )
+                        st.markdown(
+                            f"""
+                            <div style="
+                                display:flex;
+                                flex-wrap:wrap;
+                                gap:2px 4px;
+                                line-height:1;
+                            ">
+                                {chips}
+                            </div>
                             """,
                             unsafe_allow_html=True
                         )
+
+                st.image(row.get("header_image"), use_container_width=True)
+
+                st.write(row.get("short_description"))
+
+                parsed_tags = parse_tags(row.get("tags"))
+
+                if parsed_tags:
+                    with st.container(gap="xxsmall"):
+                        st.markdown("**TAGS:**")
+                        with st.container(horizontal=True, gap="xxsmall"):
+                            for tag in parsed_tags[:12]:
+                                st.markdown(
+                                    f"""
+                                    <span style="
+                                        display:inline-block;
+                                        padding:2px 8px;
+                                        margin:1px;
+                                        font-size:14px;
+                                        font-weight:600;
+                                        border-radius:3px;
+                                        background:#1f6feb;
+                                        color:white;
+                                        white-space:nowrap;
+                                        line-height:1;
+                                    ">{tag}</span>
+                                    """,
+                                    unsafe_allow_html=True
+                                )
+
+        with col_right:
+            st.write("")
+            st.write("")
+            with st.container(border=True):
+
+                st.title("Metrics:")
+
+                render_review_score(row)
+
+                publisher_rank, publisher_total = get_publisher_rank(row)
+                genre_rank, genre_total = get_genre_rank(row)
+
+                render_percentile_card(
+                    "Publisher Standing",
+                    publisher_rank,
+                    publisher_total
+                )
+
+                render_percentile_card(
+                    "Genre Standing",
+                    genre_rank,
+                    genre_total
+                )
+
     dialog()
 
 
