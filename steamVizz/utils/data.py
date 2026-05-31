@@ -2,11 +2,10 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 import json
-import os
+from pathlib import Path
 
-current_dir = os.path.abspath(os.path.dirname(__file__))
-repo_root = os.path.dirname(current_dir)
-DATA_FILE_PATH = os.path.join(repo_root, "data/games.json")
+BASE_DIR = Path(__file__).resolve().parents[1]
+DATA_FILE_PATH = BASE_DIR / "data" / "games.json"
 
 @st.cache_data(show_spinner=True)
 def load_data():
