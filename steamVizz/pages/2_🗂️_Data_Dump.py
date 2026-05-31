@@ -67,40 +67,40 @@ try:
     # ---------------------------------------------------
     # Pagination State
     # ---------------------------------------------------
-    if "page_number" not in st.session_state:
-        st.session_state.page_number = 1
+    if "page_number_dump" not in st.session_state:
+        st.session_state.page_number_dump = 1
 
-    page_number = st.session_state.page_number
+    page_number_dump = st.session_state.page_number_dump
 
     total_pages = math.ceil(len(df) / PAGE_SIZE)
 
     # ---------------------------------------------------
     # Navigation
     # ---------------------------------------------------
-    st.subheader(f"Page {page_number:,} / {total_pages:,}")
+    st.subheader(f"Page {page_number_dump:,} / {total_pages:,}")
 
     col1, col2 = st.columns(2)
 
     with col1:
         if st.button("⬅ Previous", width="stretch"):
-            st.session_state.page_number = max(
+            st.session_state.page_number_dump = max(
                 1,
-                st.session_state.page_number - 1
+                st.session_state.page_number_dump - 1
             )
             st.rerun()
 
     with col2:
         if st.button("Next ➡", width="stretch"):
-            st.session_state.page_number = min(
+            st.session_state.page_number_dump = min(
                 total_pages,
-                st.session_state.page_number + 1
+                st.session_state.page_number_dump + 1
             )
             st.rerun()
 
     # ---------------------------------------------------
     # Calculate Page Indices
     # ---------------------------------------------------
-    start_idx = (page_number - 1) * PAGE_SIZE
+    start_idx = (page_number_dump - 1) * PAGE_SIZE
     end_idx = start_idx + PAGE_SIZE
 
     page_df = df.iloc[start_idx:end_idx]

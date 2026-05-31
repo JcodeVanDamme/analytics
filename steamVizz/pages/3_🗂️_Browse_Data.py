@@ -2,7 +2,6 @@ import streamlit as st
 import pandas as pd
 import utils.components as comp
 from utils.data import load_data
-from utils.data import mockData
 
 st.set_page_config(
     page_title="Browse Data",
