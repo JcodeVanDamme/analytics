@@ -4,8 +4,7 @@ import numpy as np
 import json
 from pathlib import Path
 
-BASE_DIR = Path(__file__).resolve().parents[1]
-DATA_FILE_PATH = BASE_DIR / "data" / "games.json"
+DATA_FILE_PATH = Path("data/games.json")
 st.write("DATA PATH:", DATA_FILE_PATH)
 st.write("EXISTS:", DATA_FILE_PATH.exists())
 
