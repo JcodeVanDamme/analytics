@@ -8,10 +8,6 @@ current_dir = os.path.abspath(os.path.dirname(__file__))
 repo_root = os.path.dirname(current_dir)
 DATA_FILE_PATH = os.path.join(repo_root, "data/games.json")
 
-st.write("Current dir:", current_dir)
-st.write("Data path:", DATA_FILE_PATH)
-st.write("Exists:", os.path.exists(DATA_FILE_PATH))
-
 @st.cache_data(show_spinner=True)
 def load_data():
     with open(DATA_FILE_PATH, "r", encoding="utf-8") as f:
