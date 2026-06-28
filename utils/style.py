@@ -9,6 +9,26 @@ textColor = "#ffffff"
 def apply_global():
     st.markdown(f"""
             <style>
+            .nav-button {{
+                display: inline-block;
+                padding: 0.5rem 1rem;
+                color: inherit !important;
+                background-color: transparent;
+                border: 1px solid rgba(49, 51, 63, 0.2);
+                border-radius: 0.5rem;
+                text-decoration: none !important;
+                font-weight: 500;
+                margin-right: 0.5rem;
+                transition: all 0.2s ease;
+            }}
+            .nav-button:hover {{
+                border-color: rgb(255, 75, 75); /* Streamlit Red/Orange accent */
+                color: rgb(255, 75, 75) !important;
+            }}
+            /* Optional global scroll offset */
+            [id] {{ scroll-margin-top: 100px; }}
+            
+            
             /* 1. MAIN HEADERS */
             h1 {{
                 font-weight: 700 !important;

@@ -41,6 +41,7 @@ genre_df = get_genres()
 genre_fig, top_genres, other_genres = genre_distribution_chart(genre_df)
 
 heading("steam analytics",)
+st.markdown("<a id='start' style='scroll-margin-top: 300px;'></a>", unsafe_allow_html=True)
 
 write("Welcome to Steam Analytics. This dashboard parses industry data to uncover crossover trends, competitive baselines, and commercial gaps across desired market ranges.")
 write("**How to use this tool:** Use the sidebar filters to isolate specific genre profiles.")
@@ -52,6 +53,39 @@ st.write("")
 st.write("")
 
 with st.sidebar:
+
+    with st.expander("Navigation", expanded=False):
+        def jump_to(target_id):
+            """Executes JS to smoothly scroll the parent window to the target ID."""
+            js = f"""
+            <script>
+                var el = window.parent.document.getElementById("{target_id}");
+                if (el) {{
+                    el.scrollIntoView({{behavior: "auto", block: "start"}});
+                }}
+            </script>
+            """
+            # Inserting this tiny component instantly triggers the JS execution
+            st.components.v1.html(js, height=0, width=0)
+
+        st.button(
+            "Market Distribution",
+            on_click=jump_to,
+            args=("start",),
+            use_container_width=True
+        )
+        st.button(
+            "Market Trends",
+            on_click=jump_to,
+            args=("mid",),
+            use_container_width=True
+        )
+        st.button(
+            "Top Titles",
+            on_click=jump_to,
+            args=("end",),
+            use_container_width=True
+        )
 
     heading("Genre filter")
 
@@ -87,7 +121,7 @@ with st.sidebar:
                 f"{genre_name}",
                 key=f"list_top_{genre_name}",
                 type="primary" if is_active else "secondary",
-                use_container_width=True,
+                width='stretch',
                 on_click=select_genre_callback,
                 args=(genre_name,)
             )
@@ -102,7 +136,7 @@ with st.sidebar:
                 f"{genre_name}",
                 key=f"list_other_{genre_name}",
                 type="primary" if is_active else "secondary",
-                use_container_width=True,
+                width='stretch',
                 on_click=select_genre_callback,
                 args=(genre_name,)
             )
@@ -121,7 +155,7 @@ with st.container(border=True, key=f"game_card_{container_id}"):
     container_id += 1
     subheading("Genre Distribution")
     write(texts["pie_description"])
-    st.plotly_chart(genre_fig, use_container_width=True, key="distribution")
+    st.plotly_chart(genre_fig, width='stretch', key="distribution")
 
 # KPIS *****************************************************************************************
 
@@ -193,6 +227,7 @@ with st.container(border=True, key=f"game_card_{container_id}"):
 
 st.write("")
 heading("Market Trends")
+st.markdown("<a id='mid' style='scroll-margin-top: 300px;'></a>", unsafe_allow_html=True)
 
 with st.container(border=True, key=f"game_card_{container_id}"):
     container_id += 1
@@ -240,7 +275,7 @@ with st.container(border=True, key=f"game_card_{container_id}"):
 
     fig = plot_tag_synergies(synergy_df, genre["name"])
     if fig is not None:
-        st.plotly_chart(fig, use_container_width=True)
+        st.plotly_chart(fig, width='stretch')
     else:
         st.info("Not enough tag synergy data matches your current filtering criteria.")
 
@@ -249,6 +284,7 @@ with st.container(border=True, key=f"game_card_{container_id}"):
 
 st.write("")
 heading(f"Top Games in {genre["name"]}")
+st.markdown("<a id='end' style='scroll-margin-top: 300px;'></a>", unsafe_allow_html=True)
 
 with st.container(border=True, key=f"game_card_{container_id}"):
     container_id += 1
@@ -415,10 +451,10 @@ for idx, game in enumerate(games_data, start=start_rank):
 col_prev, col_next = st.columns([0.5, 0.5])
 with col_prev:
     is_first_page = (st.session_state.top_page <= 1)
-    st.button("Previous Titles", on_click=prev_page, disabled=is_first_page, use_container_width=True, key="Prev")
+    st.button("Previous Titles", on_click=prev_page, disabled=is_first_page, width='stretch', key="Prev")
 
 with col_next:
-    st.button("Next Titles", on_click=next_page, use_container_width=True, key="Next")
+    st.button("Next Titles", on_click=next_page, width='stretch', key="Next")
 
 st.caption(f"Showing page **{st.session_state.top_page}**")
 
