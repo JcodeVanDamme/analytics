@@ -1,2 +1,6 @@
-[server]
-maxMessageSize = 800
+[theme]
+primaryColor = "#66C0F4"
+backgroundColor = "#2A475E"
+secondaryBackgroundColor = "#171A21"
+textColor = "#ffffff"
+font = "monospace"

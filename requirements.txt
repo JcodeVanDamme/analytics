@@ -1,6 +1,5 @@
-pyarrow
-duckdb
 streamlit
 pandas
-requests
-numpy
+plotly
+pyarrow
+duckdb
