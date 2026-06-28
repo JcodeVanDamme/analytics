@@ -125,7 +125,7 @@ def synergie_metrics(tags_df):
             st.markdown(
                 f"""
                 <div style="background-color: rgba(220, 38, 127, 0.08); padding: 16px; border-left: 4px solid #dc267f; border-radius: 6px; height: 100%;">
-                    <b style="color: #dc267f; font-size: 0.95rem; text-transform: uppercase; letter-spacing: 0.05em;">📊 Industry Standard</b><br>
+                    <b style="color: #dc267f; font-size: 0.95rem; text-transform: uppercase; letter-spacing: 0.05em;">Industry Standard</b><br>
                     <div style="margin-top: 8px; font-size: 0.95rem; line-height: 1.5; color: #e2e8f0;">
                         The mechanic <code style="color: #dc267f; background: rgba(220, 38, 127, 0.12); padding: 2px 6px; border-radius: 4px;"><b>{largest_bubble['secondary_tag'].upper()}</b></code> 
                         defines this space, appearing in <code style="font-family: monospace;"><b>{largest_bubble['game_count']:,}</b></code> active titles. 
@@ -143,7 +143,7 @@ def synergie_metrics(tags_df):
                 st.markdown(
                     f"""
                     <div style="background-color: rgba(122, 217, 255, 0.08); padding: 16px; border-left: 4px solid #7ad9ff; border-radius: 6px; height: 100%;">
-                        <b style="color: #38bdf8; font-size: 0.95rem; text-transform: uppercase; letter-spacing: 0.05em;">🚀 Core Market Catalyst</b><br>
+                        <b style="color: #38bdf8; font-size: 0.95rem; text-transform: uppercase; letter-spacing: 0.05em;">Core Market Catalyst</b><br>
                         <div style="margin-top: 8px; font-size: 0.95rem; line-height: 1.5; color: #e2e8f0;">
                             Integrating <code style="color: #38bdf8; background: rgba(122, 217, 255, 0.15); padding: 2px 6px; border-radius: 4px;"><b>{prime_catalyst['secondary_tag'].upper()}</b></code> 
                             yields the strongest crossover footprint. Titles with this trait average 
@@ -158,7 +158,7 @@ def synergie_metrics(tags_df):
                 st.markdown(
                     """
                     <div style="background-color: rgba(15, 23, 42, 0.4); padding: 16px; border-left: 4px solid #64748b; border-radius: 6px; height: 100%;">
-                        <b style="color: #94a3b8; font-size: 0.95rem; text-transform: uppercase;">🚀 Core Market Catalyst</b><br>
+                        <b style="color: #94a3b8; font-size: 0.95rem; text-transform: uppercase;">Core Market Catalyst</b><br>
                         <div style="margin-top: 8px; font-size: 0.95rem; color: #64748b; font-style: italic;">
                             No high-volume baseline mechanics cleared the upper performance thresholds.
                         </div>
@@ -174,7 +174,7 @@ def synergie_metrics(tags_df):
                 st.markdown(
                     f"""
                     <div style="background-color: rgba(255, 176, 0, 0.08); padding: 16px; border-left: 4px solid #ffb000; border-radius: 6px; height: 100%;">
-                        <b style="color: #ffb000; font-size: 0.95rem; text-transform: uppercase; letter-spacing: 0.05em;">💡 Under-Exploited Niche</b><br>
+                        <b style="color: #ffb000; font-size: 0.95rem; text-transform: uppercase; letter-spacing: 0.05em;">Under-Exploited Niche</b><br>
                         <div style="margin-top: 8px; font-size: 0.95rem; line-height: 1.5; color: #e2e8f0;">
                             The tag <code style="color: #ffb000; background: rgba(255, 176, 0, 0.12); padding: 2px 6px; border-radius: 4px;"><b>{hidden_niche['secondary_tag'].upper()}</b></code> 
                             shows clear signs of unmet demand, driving an incredible satisfaction rating of 
@@ -188,7 +188,7 @@ def synergie_metrics(tags_df):
                 st.markdown(
                     """
                     <div style="background-color: rgba(15, 23, 42, 0.4); padding: 16px; border-left: 4px solid #64748b; border-radius: 6px; height: 100%;">
-                        <b style="color: #94a3b8; font-size: 0.95rem; text-transform: uppercase;">💡 Under-Exploited Niche</b><br>
+                        <b style="color: #94a3b8; font-size: 0.95rem; text-transform: uppercase;">Under-Exploited Niche</b><br>
                         <div style="margin-top: 8px; font-size: 0.95rem; color: #64748b; font-style: italic;">
                             No hidden under-saturated high-satisfaction features detected in this profile.
                         </div>
