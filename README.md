@@ -5,6 +5,11 @@ A Data-Visualiuzation Dashboard built using Streamlit in Python. Developed heavi
 
 **Tech Stack:** Streamlit, Pandas, DuckDB, Plotly
 
+## Attribution
+The static Dataset used for this Dashboard  is licensed under the MIT.
+- **Author**: Martin Bustos Roman
+- **Source**: https://www.kaggle.com/datasets/fronkongames/steam-games-dataset
+
 ## Key Features
 
 * **Global Genre Filtering:** A collapsible sidebar allows users to isolate specific Genres globally across all visualizations and Metrics.
