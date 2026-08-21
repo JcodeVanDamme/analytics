@@ -8,6 +8,8 @@ A Data-Visualiuzation Dashboard built using Streamlit in Python. Developed heavi
 ## Key Features
 
 * **Global Genre Filtering:** A collapsible sidebar allows users to isolate specific Genres globally across all visualizations and Metrics.
+  
+* **Automated Insights:** The dashboard automatically extracts and highlights key Insights and actionable Takeaways directly next to the charts, eliminating the need for manual data Interpretation.
 
 * **Market Distribution & KPIs:** View the Market-Share of Genres. Automated KPI-Cards extract critical Data such as Total Titles, Average Price, Positive Ratio, and Average CCU.
 
@@ -19,14 +21,12 @@ A Data-Visualiuzation Dashboard built using Streamlit in Python. Developed heavi
 
 * **Pricing Tiers:** A split-panel Chart analyzing Market Dynamics across pricing Buckets. It compares market Supply, Demand, and Quality to identify optimal pricing Strategies.
 
-![Pricing Tiers](docs/images/01.png)
+![Pricing Tiers](docs/images/03.png)
 
 * **Tag Synergies:** A scatter Plot mapping Tag performance. It tracks Player satisfaction against commercial demand, isolating high-demand, high-satisfaction Ppportunities.
 
-![Tag Synergy](docs/images/03.png)
+![Tag Synergy](docs/images/04.png)
 
 * **Top Titles:** A sortable data View highlighting the top-performing Games in a selected category.
 
-![Top Titles](docs/images/04.png)
-
-* **Automated Insights:** The dashboard automatically extracts and highlights key Insights and actionable Takeaways directly next to the charts, eliminating the need for manual data Interpretation.
+![Top Titles](docs/images/05.png)
